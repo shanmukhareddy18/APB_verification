@@ -25,7 +25,7 @@ class monitor;
                 mon_trans.rdata_out     = vif.mon_cb.rdata_out;
                 mon_trans.transfer_done = vif.mon_cb.transfer_done;
                 mon_trans.error         = vif.mon_cb.error;
-                mbx_ms.put(mon_trans.copy());
+                mbx_ms.put(mon_trans);
                 $display("\n========================================");
                 $display("MONITOR");
                 $display("========================================");
