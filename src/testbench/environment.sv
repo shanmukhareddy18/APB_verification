@@ -31,8 +31,7 @@ class environment;
             sb.start();
         join_any
         @(posedge vif.clk);
-        $display("\n======================================");
+        $display("\n=============================");
         $display("       SIMULATION COMPLETED");
-        $display("======================================");
     endtask
 endclass
