@@ -78,7 +78,7 @@ class reference_model;
                                       ref_trans.PSLVERR && (ref_trans.count==2);
 
 
-                mbx_rs.put(exp_trans.copy());
+                mbx_rs.put(exp_trans);
 
                 $display("\n========================================");
                 $display("REFERENCE MODEL");
