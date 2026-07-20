@@ -21,7 +21,6 @@ class scoreboard;
             mbx_ms.get(mon_trans);
             $display("\n==================================================");
             $display("                 SCOREBOARD");
-            $display("==================================================");
                 $display("From reference");
                 $display("------------------------------------");
                 $display("PADDR         = %0h",exp_trans.PADDR);
@@ -35,7 +34,6 @@ class scoreboard;
                 $display("error         = %0b",exp_trans.error);
 
                 $display("From MON");
-                $display("------------------------------------");
                 $display("PADDR         = %0h",mon_trans.PADDR);
                 $display("PSEL          = %0b",mon_trans.PSEL);
                 $display("PENABLE       = %0b",mon_trans.PENABLE);
@@ -58,10 +56,10 @@ class scoreboard;
                 match++;
             else
                 mismatch++;
-            $display("------------------------------------");
+
             $display("MATCHES    = %0d",match);
             $display("MISMATCHES = %0d",mismatch);
-            $display("------------------------------------");
+
         end
     endtask
 endclass
