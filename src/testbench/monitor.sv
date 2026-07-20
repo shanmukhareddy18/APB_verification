@@ -28,7 +28,6 @@ class monitor;
                 mbx_ms.put(mon_trans);
                 $display("\n========================================");
                 $display("MONITOR");
-                $display("========================================");
                 $display("PADDR         = %0h",mon_trans.PADDR);
                 $display("PSEL          = %0b",mon_trans.PSEL);
                 $display("PENABLE       = %0b",mon_trans.PENABLE);
@@ -38,7 +37,6 @@ class monitor;
                 $display("rdata_out     = %0h",mon_trans.rdata_out);
                 $display("transfer_done = %0b",mon_trans.transfer_done);
                 $display("error         = %0b",mon_trans.error);
-                $display("========================================");
             end
     endtask
 
