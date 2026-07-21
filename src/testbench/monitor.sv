@@ -11,11 +11,11 @@ class monitor;
     endfunction
     bit done;
     task start();
-        repeat(2) @(vif.mon_cb);
+        repeat(1) @(vif.mon_cb);
         for(int i=1;i<=`TRANS;i++)
         begin
-            @(vif.mon_cb);
                 mon_trans = new();
+               
                 mon_trans.PADDR         = vif.mon_cb.PADDR;
                 mon_trans.PSEL          = vif.mon_cb.PSEL;
                 mon_trans.PENABLE       = vif.mon_cb.PENABLE;
@@ -28,6 +28,7 @@ class monitor;
                 mbx_ms.put(mon_trans);
                 $display("\n========================================");
                 $display("MONITOR");
+                $display("========================================");
                 $display("PADDR         = %0h",mon_trans.PADDR);
                 $display("PSEL          = %0b",mon_trans.PSEL);
                 $display("PENABLE       = %0b",mon_trans.PENABLE);
@@ -37,8 +38,9 @@ class monitor;
                 $display("rdata_out     = %0h",mon_trans.rdata_out);
                 $display("transfer_done = %0b",mon_trans.transfer_done);
                 $display("error         = %0b",mon_trans.error);
-            end
+                $display("========================================");
+            @(vif.mon_cb);
+        end
     endtask
 
 endclass
-
