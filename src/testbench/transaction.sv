@@ -6,9 +6,9 @@ logic PWRITE;
 logic [`DATA_WIDTH-1:0]PWDATA;
 logic [(`DATA_WIDTH/8)-1:0]PSTRB;
 rand logic [`DATA_WIDTH-1:0]PRDATA;
-rand logic PREADY;
+ logic PREADY;
 rand logic PSLVERR;
-rand logic transfer;
+ logic transfer;
 rand logic write_read;
 rand logic [`ADDR_WIDTH-1:0]addr_in;
 rand logic [`DATA_WIDTH-1:0]wdata_in;
@@ -22,24 +22,18 @@ static bit w_r;
 static bit [`ADDR_WIDTH-1:0]addr;
 static bit [`DATA_WIDTH-1:0]wdata;
 static bit [(`DATA_WIDTH/8)-1:0]strb;
-
+bit reset;
 constraint c1{
  if(write_read==0)
   strb_in==0;
 }
 constraint c2{
- if(count>1)
+ if(count>=1)
    strb_in==strb &&
    wdata_in==wdata &&
    addr_in==addr &&
    w_r==write_read &&
    PRDATA==rdata;
-}
- constraint c3 {
-  if (count == 2)
-    PREADY dist {0:=3, 1:=7};
-  else
-     PREADY == 0;
 }
 virtual function transaction copy();
  copy=new();
@@ -54,26 +48,29 @@ virtual function transaction copy();
  copy.count=this.count;
 return copy;
 endfunction
+
 function void post_randomize();
- if(transfer && count==0)
+ if( count==0)begin
    count=1;
+   PREADY=0;
+   transfer=1;
+      strb=strb_in;
+      wdata=wdata_in ;
+      addr=addr_in ;
+      w_r=write_read ;
+     rdata=PRDATA;
+
+ end
  else if(count==1)  begin
      strb=strb_in;
       wdata=wdata_in ;
       addr=addr_in ;
       w_r=write_read ;
      rdata=PRDATA;
-     count++;  end
-  else if (count==2) begin
-        if (PREADY) begin
-            if (transfer)
-                count = 1;
-            else
-                count = 0;
-           end
-        else
-           count=2;
+     count++;
+     PREADY=0;  end
+ else if (count==2) begin
+    PREADY=1; transfer=0; count=0;
     end
 endfunction
 endclass
-                    
