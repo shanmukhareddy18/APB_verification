@@ -17,7 +17,7 @@ logic [(`DATA_WIDTH/8)-1:0]strb_in;
 logic [`DATA_WIDTH-1:0]rdata_out;
 logic transfer_done;
 logic error;
-clocking drv_cb @(negedge clk);
+clocking drv_cb @(posedge clk);
 default input #0 output #0;
 output PRDATA;
 output PREADY;
