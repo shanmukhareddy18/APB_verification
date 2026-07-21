@@ -25,9 +25,9 @@ class driver;
     endfunction
     task start();
         $display("[%0t] DRIVER START", $time);
-        repeat(2) @(vif.drv_cb);
+        repeat(1) @(vif.drv_cb);
         for(int i=1;i<=`TRANS;i++)
-        begin
+        begin 
             if(!vif.reset)
             begin
                 drv_trans=new();
@@ -39,6 +39,7 @@ class driver;
                 vif.drv_cb.PREADY     <= 0;
                 vif.drv_cb.PRDATA     <= 0;
                 vif.drv_cb.PSLVERR    <= 0;
+
                 drv_trans.transfer   = 0;
                 drv_trans.write_read = 0;
                 drv_trans.addr_in    = 0;
@@ -59,7 +60,7 @@ class driver;
             end
             else
             begin
-
+        
             mbx_gd.get(drv_trans);
                 vif.drv_cb.transfer   <= drv_trans.transfer;
                 vif.drv_cb.write_read <= drv_trans.write_read;
@@ -80,14 +81,13 @@ class driver;
                 $display("strb_in     = %0h", drv_trans.strb_in);
                 $display("PREADY      = %0b", drv_trans.PREADY);
                 $display("PRDATA      = %0h", drv_trans.PRDATA);
-               $display("PSLVERR     = %0b", drv_trans.PSLVERR);
+                $display("PSLVERR     = %0b", drv_trans.PSLVERR);
                 $display("Driver Coverage = %0.2f%%",
                          drv_cg.get_coverage());
             end
+         drv_trans.reset=vif.reset;
          @(vif.drv_cb);
-
-         mbx_dr.put(drv_trans.copy());
+         mbx_dr.put(drv_trans);
         end
     endtask
 endclass
-
