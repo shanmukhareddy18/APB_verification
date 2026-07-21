@@ -1,8 +1,9 @@
 `include "defines.svh"
 `include "interface.sv"
-import apb_pkg::*;
+`include "apb_pkg.sv"
 `include "dut.sv"
 module top;
+import apb_pkg::*;
     bit clk;
     bit reset;
     inf vif(clk, reset);
@@ -31,7 +32,9 @@ module top;
         .error         (vif.error)
 
     );
-    test tst;
+   // test1 tst1;
+   // test2 tst2;
+     test_regression  reg_tb=new(vif.DRV,vif.MON);
     initial
         clk = 0;
     always #5 clk = ~clk;
@@ -39,12 +42,15 @@ module top;
     begin
         reset = 0;
         repeat(3) @(posedge clk);
-       reset = 1;
+        reset = 1;
     end
     initial
     begin
-        tst = new(vif);
-        tst.run();
+      //  tst1 = new(vif.DRV,vif.MON);
+       // tst2 = new(vif.DRV,vif.MON);
+       // tst1.run();
+       //	tst2.run();
+     reg_tb.run();
+     $finish();
     end
 endmodule
-
