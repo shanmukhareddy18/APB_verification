@@ -81,7 +81,7 @@ env.start;
 
 begin
 t3 =new();
-env.gen.blueprint=t2;
+env.gen.blueprint=t3;
 end
 env.start;
 
