@@ -44,7 +44,17 @@ input rdata_out;
 input transfer_done;
 input error;
 endclocking
+Idle2setup:assert property(@(posedge clk) disable iff(!reset) (!PSEL)&&(!PENABLE)&&(transfer)|=>((PSEL)&&(!PENABLE)))
+        else $error("IDLE to SETUP state transistion failed",$time);
+setup2access:assert property(@(posedge clk) disable iff(!reset) (PSEL)&&(!PENABLE)|=>((PSEL)&&(PENABLE)))
+        else $error("SETUP to ACCESS state transistion failed",$time);
+access2idle:assert property(@(posedge clk) disable iff(!reset) (PSEL)&&(PENABLE)&&(PREADY)&&(!transfer)|=>((!PSEL)&&(!PENABLE)))
+        else $error("ACCESS to IDLE state transistion failed",$time);
+access2setup:assert property(@(posedge clk) disable iff(!reset) (PSEL)&&(PENABLE)&&(PREADY)&&(transfer)|=>((PSEL)&&(!PENABLE)))
+        else $error("ACCESS to SETUP state transistion failed",$time);
+
 modport DRV(clocking drv_cb,input reset);
 modport REF(clocking ref_cb);
 modport MON(clocking mon_cb);
+  
 endinterface
